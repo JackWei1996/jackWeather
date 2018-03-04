@@ -1,9 +1,11 @@
 package com.example.jackweather.util;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jackweather.R;
+import com.example.jackweather.WeatherActivity;
 import com.example.jackweather.db.City;
 import com.example.jackweather.db.County;
 import com.example.jackweather.db.Province;
@@ -68,7 +71,6 @@ public class ChooseAreaFragment extends Fragment {
      * 当前选中的级别
      */
     private  int currentLevel;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -93,6 +95,13 @@ public class ChooseAreaFragment extends Fragment {
                 } else if (currentLevel == LEVEL_CITY) {
                     selecteCity = cityList.get(position);
                     queryCounties();
+                } else if (currentLevel == LEVEL_COUNTY) {
+                    String weatherId = countyList.get(position).getWeatherId();
+
+                    Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                    intent.putExtra("weacher_id", weatherId);
+                    startActivity(intent);
+                    getActivity().finish();
                 }
             }
         });
